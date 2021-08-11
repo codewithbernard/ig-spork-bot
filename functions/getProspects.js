@@ -53,23 +53,21 @@ module.exports = (admin) => async (context) => {
     // Uncomment if you debugging locally
     if (page) {
       const id = uuid.v4();
-      await page.screenshot({
-        path: `${id}.png`,
+      const screenshot = await page.screenshot({
+        encoding: "base64",
       });
 
-      await bucket.upload(`./${id}.png`, {
-        destination: `${id}.png`,
+      const file = bucket.file(`${id}.png`);
+      const base64EncodedString = screenshot.replace(
+        /^data:\w+\/\w+;base64,/,
+        ""
+      );
+      const fileBuffer = Buffer.from(base64EncodedString, "base64");
+      await file.save(fileBuffer, {
         metadata: {
           metadata: {
             firebaseStorageDownloadTokens: id,
           },
-        },
-      });
-
-      const file = bucket.file(`${id}.png`);
-      await file.save(screenshotBase64, {
-        metadata: {
-          contentType: "image/png",
         },
       });
     }
