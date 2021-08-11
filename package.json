@@ -1,0 +1,23 @@
+{
+  "name": "ig-spork-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codewithbernard/ig-spork-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codewithbernard/ig-spork-bot/issues"
+  },
+  "homepage": "https://github.com/codewithbernard/ig-spork-bot#readme",
+  "dependencies": {
+    "firebase-admin": "^9.11.0"
+  }
+}
