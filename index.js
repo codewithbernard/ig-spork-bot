@@ -8,4 +8,4 @@ admin.initializeApp({
   storageBucket: "ig-spork-bot.appspot.com",
 });
 
-getProspects(admin);
+getProspects(admin)();
