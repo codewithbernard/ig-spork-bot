@@ -4,8 +4,8 @@ admin.initializeApp();
 
 const getProspects = require("./getProspects");
 
-exports.getProspects = functions
+exports.collectProspects = functions
   .region("europe-west2")
-  .runWith({ memory: "512MB", timeoutSeconds: 300 })
+  .runWith({ memory: "2GB", timeoutSeconds: 300 })
   .pubsub.schedule("every 12 hours")
   .onRun(getProspects(admin));

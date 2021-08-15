@@ -32,7 +32,7 @@ module.exports = (admin) => async (context) => {
 
     for (const user of users) {
       try {
-        const userRef = db.collection("users").doc(sha256(user));
+        const userRef = db.collection("users").doc(sha256(user).toString());
         const doc = await userRef.get();
 
         // If user does not already exist create it
