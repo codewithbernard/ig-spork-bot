@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 
+const follow = require("./functions/follow");
 const getProspects = require("./functions/getProspects");
 const serviceAccount = require("./account.json");
 
@@ -8,4 +9,5 @@ admin.initializeApp({
   storageBucket: "ig-spork-bot.appspot.com",
 });
 
-getProspects(admin)();
+// getProspects(admin)();
+follow(admin)();
