@@ -38,11 +38,20 @@ module.exports = (admin) => async (context) => {
 
     // Follow each user one by one
     for (const user of users) {
-      await userPage.follow(page, user.name);
-      await db
-        .collection("users")
-        .doc(user.id)
-        .update({ followedAt: admin.firestore.FieldValue.serverTimestamp() });
+      try {
+        // Try to follow the user
+        await userPage.follow(page, user.name);
+        await db
+          .collection("users")
+          .doc(user.id)
+          .update({ followedAt: admin.firestore.FieldValue.serverTimestamp() });
+      } catch (error) {
+        // Followe was not succesfull. Check if user was removed
+        const removed = await userPage.userRemoved(page);
+        if (removed) {
+          await db.collection("users").doc(user.id).delete();
+        }
+      }
     }
   } catch (error) {
     if (page) {

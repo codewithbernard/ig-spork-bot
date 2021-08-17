@@ -9,3 +9,12 @@ exports.follow = async (page, username) => {
   await followButton.click();
   await page.waitFor(2500);
 };
+
+exports.userRemoved = async (page) => {
+  try {
+    await page.waitForXPath("//div[contains(text(),'have been removed')]");
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
