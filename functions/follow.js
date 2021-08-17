@@ -36,20 +36,15 @@ module.exports = (admin) => async (context) => {
       .get();
     const users = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-    // Followe each user one by one
+    // Follow each user one by one
     for (const user of users) {
-      const followed = await userPage.follow(page, user.name);
-
-      // If the followe was succesfull. Set the date of the following
-      if (followed) {
-        await db
-          .collection("users")
-          .doc(user.id)
-          .update({ followedAt: admin.firestore.FieldValue.serverTimestamp() });
-      }
+      await userPage.follow(page, user.name);
+      await db
+        .collection("users")
+        .doc(user.id)
+        .update({ followedAt: admin.firestore.FieldValue.serverTimestamp() });
     }
   } catch (error) {
-    // Uncomment if you debugging locally
     if (page) {
       const id = uuid.v4();
       const screenshot = await page.screenshot({
