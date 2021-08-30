@@ -6,8 +6,8 @@ const functions = require("firebase-functions");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-const loginPage = require("./pages/linkedIn/login");
-const searchPage = require("./pages/linkedIn/search");
+const loginPage = require("../pages/linkedIn/login");
+const searchPage = require("../pages/linkedIn/search");
 
 module.exports = (admin) => async (context) => {
   let browser;
