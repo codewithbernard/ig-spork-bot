@@ -9,20 +9,29 @@ exports.follow = async (page, profileUrl, fullName) => {
   );
   await moreButton.click();
 
-  // Click on connect
-  const connectButton = await page.waitForXPath(
-    "//div[@data-control-name='connect']"
-  );
-  await connectButton.click();
+  try {
+    // Click on connect
+    const connectButton = await page.waitForXPath(
+      "//div[@data-control-name='connect']"
+    );
+    await connectButton.click();
 
-  // Click on connect in modal
-  const connectModalButton = await page.waitForXPath(
-    "//div[contains(@class,'send-invite')]//div[contains(@class, 'artdeco-modal__actionbar')]/button[1]"
-  );
-  await connectModalButton.click();
+    // Click on connect in modal
+    const connectModalButton = await page.waitForXPath(
+      "//div[contains(@class,'send-invite')]//div[contains(@class, 'artdeco-modal__actionbar')]/button[1]"
+    );
+    await connectModalButton.click();
+  } catch (error) {
+    // If connect is not present here, it's in main profile
+    // Click on connect
+    const mainConnectButton = await page.waitForXPath(
+      "//button[@data-control-name='connect']"
+    );
+    await mainConnectButton.click();
+  }
 
   // Wait a little
-  page.waitFor(2500);
+  await page.waitFor(2500);
 
   // Click on note
   const leftNoteButton = await page.waitForXPath(
@@ -30,7 +39,7 @@ exports.follow = async (page, profileUrl, fullName) => {
   );
   await leftNoteButton.click();
 
-  // Click on note
+  // Type to message
   const messageTextArea = await page.waitForXPath(
     "//textarea[@name='message']"
   );
