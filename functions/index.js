@@ -18,7 +18,7 @@ exports.follow = functions
   .pubsub.schedule("every 60 minutes")
   .onRun(follow(admin));
 
-exports.linkedInFollow = functions
+exports.linkedInFollowNew = functions
   .region("europe-west2")
   .runWith({ memory: "1GB", timeoutSeconds: 300 })
   .pubsub.schedule("every 60 minutes")

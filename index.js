@@ -10,8 +10,8 @@ admin.initializeApp({
   storageBucket: "ig-spork-bot.appspot.com",
 });
 
-getProspects(
-  admin,
-  "https://www.linkedin.com/posts/javascript-developer_activity-6837656809285660672-ymUi/"
-)();
-// follow(admin)();
+// getProspects(
+//   admin,
+//   "https://www.linkedin.com/posts/javascript-developer_activity-6837656809285660672-ymUi/"
+// )();
+follow(admin)();

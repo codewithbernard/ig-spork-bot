@@ -21,12 +21,30 @@ module.exports = (admin) => async (context) => {
     });
 
     page = await browser.newPage();
-    await page.setDefaultTimeout(15000);
+    await page.setDefaultTimeout(20000);
     await loginPage.login(
       page,
       functions.config().linked_in.username,
       functions.config().linked_in.password
     );
+
+    // try {
+    //   await page.waitFor(15000);
+    //   const codeButton = await page.waitForXPath(
+    //     "//input[@type='text' or @type='number']"
+    //   );
+
+    //   await page.waitFor(60000);
+
+    //   const code = await db.collection("linkedInCode").doc("code").get();
+    //   await codeButton.type(code.data().pin);
+    //   const submitButton = await page.waitForXPath("//button[@type='submit']");
+    //   await submitButton.click();
+
+    //   await page.waitFor(10000);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     // Get 5 users that has not been followed
     const snapshot = await db
