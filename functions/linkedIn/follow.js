@@ -21,7 +21,7 @@ module.exports = (admin) => async (context) => {
     });
 
     page = await browser.newPage();
-    await page.setDefaultTimeout(20000);
+    await page.setDefaultTimeout(15000);
     await loginPage.login(
       page,
       functions.config().linked_in.username,
