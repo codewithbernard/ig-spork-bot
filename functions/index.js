@@ -4,6 +4,7 @@ admin.initializeApp();
 
 const getProspects = require("./getProspects");
 const follow = require("./follow");
+const linkedInFollow = require("./linkedIn/follow");
 
 exports.collectProspects = functions
   .region("europe-west2")
@@ -16,3 +17,9 @@ exports.follow = functions
   .runWith({ memory: "2GB", timeoutSeconds: 300 })
   .pubsub.schedule("every 60 minutes")
   .onRun(follow(admin));
+
+exports.linkedInFollow = functions
+  .region("europe-west2")
+  .runWith({ memory: "1GB", timeoutSeconds: 300 })
+  .pubsub.schedule("every 60 minutes")
+  .onRun(linkedInFollow(admin));
