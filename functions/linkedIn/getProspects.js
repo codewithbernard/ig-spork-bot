@@ -9,7 +9,7 @@ puppeteer.use(StealthPlugin());
 const loginPage = require("../pages/linkedIn/login");
 const searchPage = require("../pages/linkedIn/search");
 
-module.exports = (admin) => async (context) => {
+module.exports = (admin, postUrl) => async (context) => {
   let browser;
   let page;
   const db = admin.firestore();
@@ -29,10 +29,7 @@ module.exports = (admin) => async (context) => {
       functions.config().linked_in.password
     );
 
-    const likers = await searchPage.getLikers(
-      page,
-      "https://www.linkedin.com/search/results/content/?keywords=%23reactjs&origin=GLOBAL_SEARCH_HEADER&page=2&update=urn%3Ali%3Afs_updateV2%3A(urn%3Ali%3Aactivity%3A6837277894318850048%2CBLENDED_SEARCH_FEED%2CEMPTY%2CDEFAULT%2Cfalse)"
-    );
+    const likers = await searchPage.getLikers(page, postUrl);
 
     for (const user of likers) {
       try {
@@ -57,26 +54,26 @@ module.exports = (admin) => async (context) => {
     }
   } catch (error) {
     // Uncomment if you debugging locally
-    // if (page) {
-    //   const id = uuid.v4();
-    //   const screenshot = await page.screenshot({
-    //     encoding: "base64",
-    //   });
+    if (page) {
+      const id = uuid.v4();
+      const screenshot = await page.screenshot({
+        encoding: "base64",
+      });
 
-    //   const file = bucket.file(`${id}.png`);
-    //   const base64EncodedString = screenshot.replace(
-    //     /^data:\w+\/\w+;base64,/,
-    //     ""
-    //   );
-    //   const fileBuffer = Buffer.from(base64EncodedString, "base64");
-    //   await file.save(fileBuffer, {
-    //     metadata: {
-    //       metadata: {
-    //         firebaseStorageDownloadTokens: id,
-    //       },
-    //     },
-    //   });
-    // }
+      const file = bucket.file(`${id}.png`);
+      const base64EncodedString = screenshot.replace(
+        /^data:\w+\/\w+;base64,/,
+        ""
+      );
+      const fileBuffer = Buffer.from(base64EncodedString, "base64");
+      await file.save(fileBuffer, {
+        metadata: {
+          metadata: {
+            firebaseStorageDownloadTokens: id,
+          },
+        },
+      });
+    }
     console.log(error);
   } finally {
     browser && browser.close();
