@@ -56,16 +56,12 @@ module.exports = (admin) => async (context) => {
 
     // Follow each user one by one
     for (const user of users) {
-      try {
-        // Try to follow the user
-        await userPage.follow(page, user.link, user.name);
-        await db
-          .collection("linkedInUsers")
-          .doc(user.id)
-          .update({ followedAt: admin.firestore.FieldValue.serverTimestamp() });
-      } catch (error) {
-        console.log(error);
-      }
+      // Try to follow the user
+      await userPage.follow(page, user.link, user.name);
+      await db
+        .collection("linkedInUsers")
+        .doc(user.id)
+        .update({ followedAt: admin.firestore.FieldValue.serverTimestamp() });
     }
   } catch (error) {
     if (page) {
